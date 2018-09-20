@@ -54,6 +54,10 @@
         this.autoUpdateInput = true;
         this.alwaysShowCalendars = false;
         this.ranges = {};
+        this.onShow = {
+            fn: null,
+            args: null
+        };
 
         this.opens = 'right';
         if (this.element.hasClass('pull-right'))
@@ -1100,6 +1104,15 @@
             this.move();
             this.element.trigger('show.daterangepicker', this);
             this.isShowing = true;
+
+            if (typeof this.onShow.fn === 'function') {
+                try {
+                    this.onShow.fn( this.onShow.args, this.element );
+                } catch( e ) {
+                    console.error( 'Error when calling onShow.fn()' );
+                }
+            }
+
         },
 
         hide: function(e) {

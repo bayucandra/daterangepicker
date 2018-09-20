@@ -1112,8 +1112,8 @@
 
             if (typeof this.onShow.fn === 'function') {
                 try {
-                    var args = this.onShow.args.unshift( this.element );
-                    this.onShow.fn.apply( null, [] );
+                    this.onShow.args.unshift( this.element );
+                    this.onShow.fn.apply( null, this.onShow.args );
                 } catch( e ) {
                     console.error( 'Error when calling onShow.fn():' + e.message );
                 }

@@ -281,6 +281,11 @@
         if (typeof options.alwaysShowCalendars === 'boolean')
             this.alwaysShowCalendars = options.alwaysShowCalendars;
 
+        if ( options.hasOwnProperty('onShow') && typeof options.onShow.fn !== 'null') {
+            this.onShow.fn = options.onShow.fn;
+            this.onShow.args = options.onShow.hasOwnProperty( 'args' ) ? options.onShow.args : [];
+        }
+
         // update day names order to firstDay
         if (this.locale.firstDay != 0) {
             var iterator = this.locale.firstDay;
@@ -1107,9 +1112,10 @@
 
             if (typeof this.onShow.fn === 'function') {
                 try {
-                    this.onShow.fn( this.onShow.args, this.element );
+                    var args = this.onShow.args.unshift( this.element );
+                    this.onShow.fn.apply( null, [] );
                 } catch( e ) {
-                    console.error( 'Error when calling onShow.fn()' );
+                    console.error( 'Error when calling onShow.fn():' + e.message );
                 }
             }
 

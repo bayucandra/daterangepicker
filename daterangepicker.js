@@ -58,6 +58,10 @@
             fn: null,
             args: null
         };
+        this.onHide = {
+            fn: null,
+            args: null
+        };
 
         this.opens = 'right';
         if (this.element.hasClass('pull-right'))
@@ -281,9 +285,14 @@
         if (typeof options.alwaysShowCalendars === 'boolean')
             this.alwaysShowCalendars = options.alwaysShowCalendars;
 
-        if ( options.hasOwnProperty('onShow') && typeof options.onShow.fn !== 'null') {
+        if ( options.hasOwnProperty('onShow') && typeof options.onShow.fn === 'function' ) {
             this.onShow.fn = options.onShow.fn;
             this.onShow.args = options.onShow.hasOwnProperty( 'args' ) ? options.onShow.args : [];
+        }
+
+        if ( options.hasOwnProperty('onHide') && typeof options.onHide.fn === 'function' ) {
+            this.onHide.fn = options.onHide.fn;
+            this.onHide.args = options.onHide.hasOwnProperty( 'args' ) ? options.onHide.args : [];
         }
 
         // update day names order to firstDay
@@ -1142,6 +1151,15 @@
             this.container.hide();
             this.element.trigger('hide.daterangepicker', this);
             this.isShowing = false;
+
+            if (typeof this.onHide.fn === 'function') {
+                try {
+                    this.onHide.args.unshift( this.element );
+                    this.onHide.fn.apply( null, this.onHide.args );
+                } catch( e ) {
+                    console.error( 'Error when calling onShow.fn():' + e.message );
+                }
+            }
         },
 
         toggle: function(e) {

@@ -712,7 +712,8 @@
             if ((!minDate || minDate.isBefore(calendar.firstDay)) && (!this.linkedCalendars || side == 'left')) {
                 html += '<th class="prev available"><span></span></th>';
             } else {
-                html += '<th></th>';
+                html += '<th class="visible-sm-up visible-sm-up--table-cell"></th>';
+                html += '<th class="prev available hidden-sm-up hidden-sm-up--table-cell"><span></span></th>';
             }
 
             var dateHtml = this.locale.monthNames[calendar[1][1].month()] + calendar[1][1].format(" YYYY");
